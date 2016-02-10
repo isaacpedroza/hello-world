@@ -1,0 +1,202 @@
+<html>
+<head>
+ 	  <!--Import Google Icon Font-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>-->
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <option style="font-size: 35px; font-family: Arial, Verdana; font-weight: bold;"> Informacion personal</option><br>
+      <script type="text/javascript" src="js/logup.js"></script>
+      <script type="text/javascript" src="js/dynamicoptionlist.js"></script>
+</head>
+
+<body onLoad="initDynamicOptionLists()">
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script type="text/javascript" src="js/materialize.min.js"></script>
+
+
+<!--Desde aqui comienza el codigo-->
+<BR><BR>
+    <form class="col s12" id="log">
+      <div class="row" align="center" style="width:40%">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">face</i>
+          <input id="icon_prefix" type="text" name="nam" class="validate">
+          <label for="icon_prefix">First Name</label>
+        </div>
+      </div>
+
+      <!--<div class="input-field col s6">
+          <i class="material-icons prefix">face</i>
+          <input id="icon_lastname" type="text" name="last" class="validate">
+          <label for="icon_lastname">Last Name</label>
+        </div>
+      </div>-->
+
+      <div class="row" align="center" style="width:40%">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">grade</i>
+          <input id="icon_lastname" type="text" name="last" class="validate">
+          <label for="icon_lastname">Last Name</label>
+        </div>
+      </div>
+
+      <div class="row" align="center" style="width:40%">
+      	<div class="input-field col s12">
+          <i class="material-icons prefix">grade</i>
+          <input id="icon_username" type="text" name="user" class="validate">
+          <label for="icon_username">Username</label>
+        </div>
+      </div>
+     
+    	 <div class="row" align="center" style="width:40%">
+          <div class="input-field col s12">
+            <i class="material-icons prefix">vpn_key</i>
+            <input id="pass" type="password" name="pass" length="10">
+            <label for="pass">Password</label>
+          </div>
+      </div>
+
+        <div class="row" align="center" style="width:40%">
+          <div class="input-field col s12">
+            <i class="material-icons prefix"></i>       
+            <input id="pass2" type="password" name="pass2" length="10">
+            <label for="pass2">Re-Enter Password</label>
+          </div>
+        </div>
+
+        <div class="row" align="center" style="width:40%">
+          <div class="input-field col s12">
+            <i class="material-icons prefix"></i>  
+            <input id="icon_bank" type="text" name="bank" class="validate" length="20">
+            <label for="icon_bank">Bank Account</label>
+          </div>
+        </div>
+
+        <div id = "resultado_bank"></div>
+
+        <div class="row" align="center" style="width:40%">
+        	<div class="input-field col s12">
+            <i class="material-icons prefix">email</i>
+            <input id="icon_email" type="text" name=email class="validate">
+            <label for="icon_email">Email</label>
+          </div>
+        </div>
+
+      <div class="row" style="width:25%">
+    		<select class="browser-default " name="dep">  
+          <option value="" disabled selected>Departamento:</option>
+          <option value="1">Atlantico</option>
+          <option value="2">Antioquia</option>
+          <option value="3">Cauca</option>
+          <option value="4">Magdalena</option>
+          <option value="5">Bolivar</option>
+          <option value="6">Tolima</option>
+        </select>
+      </div>
+      <div class="row" style="width:25%">
+      	<select class="browser-default" name="ciu">  
+            <option value="" disabled selected>Municipio:</option>
+            <!--<script type="text/javascript">namesSex.printOptions("ciu")</script>-->
+            <!--<option value="1">Barranquilla</option>-->
+        </select>
+      </div>    
+
+      <div id="resultados">Aquí van los mensajes: </div> 
+
+      <div class="row" align="center">
+        <button type="submit" id="submit" class="waves-effect waves-light btn #1b5e20 green darken-4"><i class="material-icons right">play_arrow</i>Continuar</button>
+      </div>
+    </form>
+    
+        <script>
+            var pswd = ""; var pswd2 = ""; var account = ""; var valor_username = "";
+            $(document).ready(function() {
+                  $('#log').submit(function(evento) {
+                      evento.preventDefault();
+                      $('#resultados').hide();
+                      // VALIDACION DE CONTRASEÑAS
+                      pswd = $("#pass").val();
+                      pswd2 = $("#pass2").val();
+                      account = $("#icon_bank").val();
+
+                      if ((pswd.length)>10 || (pswd2.length)>10) 
+                      {
+                        $('#resultados').hide();
+                        $('#resultados').text("Error! Passwords can not be more than 10 characters");
+                        $('#resultados').show();
+
+                      }
+                      else 
+                      {
+                        if (pswd != pswd2)
+                        {
+                          $('#resultados').hide();
+                          $('#resultados').text("Error! Reentered password does not match with first password");
+                          $('#resultados').show();
+                        }
+                        else
+                        {
+                          if (account.length!=20)
+                          {
+                            $('#resultados').hide();
+                            $('#resultados').text("Error! Bank account must be 20 characters");
+                            $('#resultados').show();
+                          }
+                          else
+                          {
+                            var datos_formulario = $(this).serialize();
+                            $.ajax({
+                                method: 'POST',
+                                async: false,
+                                contentType: 'application/json',
+                                jsonp: "callback",
+                                //url: 'insertaDB_logup_datos_personales.jsp',
+                                url: 'http://190.143.30.11:8080/TomcatPagina2/insertaDB_logup_datos_personales.jsp',
+                                data: datos_formulario,
+                                dataType: 'jsonp',
+                                crossDomain: true,
+                                success: function(datos) {
+                                    if (datos.response == "OK" && datos.responsebank == "good")
+                                    {
+                                      valor_username = $("#icon_username").val();
+                                      localStorage.setItem("username",valor_username);
+                                      window.location.href="logup_foto.jsp";
+                                    }          
+                                    
+                                    if (datos.response == "NOOK")
+                                    {
+                                        $('#resultados').hide();
+                                        $('#resultados').html("This Username already exists in our database. Please try other.");
+                                        $('#resultados').show();
+                                    }
+
+                                    if (datos.responsebank == "wrong")
+                                    {
+                                        $('#resultado_bank').hide();
+                                        $('#resultado_bank').html("This Bank Account already exists in our database. Please change it.");
+                                        $('#resultado_bank').show();
+                                    }
+
+                                },
+                                error: function(textStatus)
+                                {
+                                    alert("ERROR EN ENVIO! " + JSON.stringify(textStatus));
+                                }
+                            });                         
+                          }
+                       
+                        }
+                      }
+              });
+            });
+
+        </script>
+  
+</body>
+</html>

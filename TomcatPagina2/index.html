@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+      <link href="css/letter.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+      <!--NAVBAR
+      <div class="row">
+        <nav>
+          <div class="nav-wrapper green accent-4" style="height: 80px">    
+            <a href="#" class="brand-logo center" style="font-size: 1.9em"><b>WiSens</b></a>
+          </div>
+        </nav>
+      </div> -->
+
+      <div class="parallax"><img src="paper.png" style="height: 10px; width: 500px; position: fixed; opacity: 0.2;"></div>
+
+      <br></br>
+      <br></br>
+
+      <form id ="formulario_login">
+          <div class="row">
+            <div class="col l4"><br></br></div>
+              <div class="col  offset-m3 offset-l3 s12 m9 l4">
+              <div class="input-field">
+                <i class="material-icons prefix">account_circle</i>
+                <input name = "username" id="username" type="text" class="validate">
+                <label for="username">Username</label>
+              </div>
+              </div>
+            
+          </div>
+
+          <div class="row">
+            <div class="col l4"><br></br></div>
+              <div class="col  offset-m3 offset-l3 s12 m9 l4">
+                <div class="input-field">
+                  <i class="material-icons prefix">vpn_key</i>
+                  <input name = "password" id="password" type="password" class="validate">
+                  <label for="password">Password</label>
+                </div>
+              </div>
+          </div>
+            
+          </div>
+          
+          <!-- Button LogIn-->
+          <div class="row">
+            <div class="col l4"><br></br></div>
+              <div class="col  offset-m3 offset-l3 s12 m9 l3">
+                <button type="submit" class="waves-effect waves-light btn green" style="font-size: 1.4em; text-align: center; height: 50px;">Log In</button>
+
+                <a id="regresar" href="logup_datos_personales.jsp" class="waves-effect waves-light btn green" style="font-size: 1.4em; text-align: center; height: 50px;">Register Now!</a>
+              </div>
+              </div>
+            
+          </div>
+
+      </form>
+
+      <div class="row">
+        <div class="col l4"><br></br></div>
+          <div class="col offset-m3 offset-l3 s12 m9 l3">
+            <div id="respuestax">Aquí irá la respuesta</div>
+          </div>
+          </div>
+        <div class="col l4"><br></br></div>
+      </div>
+
+      <br></br>
+      <br></br>
+      <br></br>
+
+      <!-- Footer -->
+      <footer class="page-footer green accent-4">
+          <div class="container" style="height: 100px;">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">Wisens</h5>
+                <p class="grey-text text-lighten-4"></p>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h5 class="white-text"></h5>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="#!"></a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!"></a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!"></a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!"></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+            © 2015 Copyright Text
+            <a class="grey-text text-lighten-4 right" href="#!"></a>
+            </div>
+          </div>
+      </footer>
+
+      <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script type="text/javascript" src="js/materialize.min.js"></script>
+      <script src="js/logincode.js"></script>
+    </body>
+  </html>

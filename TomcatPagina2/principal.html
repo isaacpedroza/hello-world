@@ -1,0 +1,652 @@
+<html>
+    <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+      <!--Import CSS files-->
+      <link href="css/letter.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+      <link type="text/css" rel="stylesheet" href="css/materialize.clockpicker.css" media="screen,projection"/>
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <!--Import jQuery for the list-->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      
+    </head>
+
+    <body>
+
+      <!-- NavBar & TABS -->
+      <div class="row">
+        <div class="navbar-fixed">
+          <nav>
+            <div class="nav-wrapper green accent-4 " style="height: 100px">
+              
+              <a href="#" class="brand-logo flow-text" style="position: relative; top: 2px; left: 50px; font-size: 2.2em"><b>WiSens</b></a>
+              
+              <ul id="nav-mobile" class="right">
+                   <li>  <div class="mapa">  <a id="primo2" class="modal-trigger "  style="font-size: 1em;text-align: center" href="#modal1"><b>Map</b></a>
+</div>
+
+                  </li>
+
+                <li><a href="index.html" style="font-size: 1em;text-align: center"><b>Log Out</b></a></li>
+                <li><a href="#" style="font-size: 1em;text-align: center"><b>Contact Us</b></a></li>
+              
+
+              </ul>
+              
+              <ul class="tabs green accent-4" style="box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 8px 0px rgba(0, 0, 0, 0.19);">
+                <li class="tab col s4"><a class="active" href="#test1">
+                  <span class="white-text" style="font-size: 1em">Home</span></a></li>
+                <li class="tab col s4"><a href="#test2">
+                  <span class="white-text" style="font-size: 1em">History & Statistics</span></a></li>
+                <li id="profile"class="tab col s4"><a href="#test3">
+                  <span class="white-text" style="font-size: 1em">Profile</span></a></li>
+              </ul>
+
+            </div>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Modal Structure -->
+      
+  
+      
+ <div id="modales"></div>
+       <div id="modal1" class="modal modal-fixed-footer">
+    <div class="modal-content">
+     
+       <h4>Location</h4>
+            <div id="googleMap" style="width:950px;height:400px;"></div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">CLOSE</a>
+    </div>
+  </div>
+
+      <!--
+      <div class="parallax-container">
+        <div class="parallax"><img src="paper.jpg" style="position: fixed; opacity: 0.7;"></div>
+      </div> -->
+
+      <!--<div id="prueba"></div>-->
+
+      <!-- DIV HOME-->
+      <div id="test1" class="col s12">
+        <div class="card-panel teal white-text" style="text-align: center; font-size: 30px;">Your Sensors</div> 
+        <!-- <div id="numsens"></div> -->
+        <!-- Button ALL
+        <div class="row">
+          <div class="col s4 m4 l4"><br></br></div>
+          <div class="col s1 m1 l1">
+              <div class="alle">
+                <a class="waves-effect waves-light btn green" style=""><i class="material-icons" style="font-size: 25px">list</i></a>
+              </div>
+          </div>
+          <div class="col s4 m4 l4"><br></br></div>
+          </div>
+        </div> -->
+        <!-- Cards -->
+        <div class="row">
+            <div class="col l4"><br></br></div>
+            <div class="col s12 m12 l4">
+              <ul id="ubicacion1" class="collapsible">
+
+                <script type="text/javascript">
+
+                var user = localStorage.getItem("username");
+                $.ajax({
+                      method: 'GET',
+                      async: false,
+                      contentType: 'application/json',
+                      data: {"username": user},
+                      jsonp: 'callback',
+                      dataType: 'jsonp',
+                      url:'http://190.143.30.11:8888/ApacheApp/phpapp.php',
+                      crossDomain: true,
+
+                      timeout: 3000,
+                                           
+                      success: function(data){
+                              localStorage["tages"] = JSON.stringify(data.etiquetas);
+                              localStorage["valueses"] = JSON.stringify(data.valores);
+                              },
+                  });
+
+                  var fun = function() {  
+
+                        //var username = obj.array[0].username;
+                        //var password = obj.array[1].password;
+                        //document.getElementById('username').innerHTML = username;
+                        //document.getElementById('password').innerHTML = password;
+
+                        //var tags = ["idMedida","Roo1T","Roo2H","Liv1T","Liv1H","LATITUD","LONGITUD","TIEMPO"];
+                        //var values = ["34","54","67","12","23","0","5","90"];
+
+                        var tags = JSON.parse(localStorage["tages"]);
+                        var values = JSON.parse(localStorage["valueses"]);
+                        //alert(tags);
+
+                        num_s = tags.length - 4; 
+                        s = [];
+                        var val_s = [];
+
+                        j = 0;
+                        for(l=1; l<=num_s; l++){
+                          s[j] = tags[l];
+                          val_s[j] = values[l];
+                          j = j + 1;
+                        }
+                        
+                        loc = [];  // Location
+                        num_loc = []; //Number of location
+                        tipo = [];  // Tipo de Sensor
+                        
+                        for(k=0; k<=num_s-1; k++){
+
+                          if(s[k].slice(0,3) == "Roo"){
+                            loc[k] = "Room";
+                          }
+                          if(s[k].slice(0,3) == "Kit"){
+                            loc[k] = "Kitchen";
+                          }
+                          if(s[k].slice(0,3) == "Liv"){
+                            loc[k] = "Living Room";
+                          }
+                          if(s[k].slice(0,3) == "Bat"){
+                            loc[k] = "Bathroom";
+                          }
+                          if(s[k].slice(0,3) == "Gar"){
+                            loc[k] = "Garage";
+                          }
+
+
+                          if(s[k].slice(4,5) == "T"){
+                            tipo[k] = "Temperature";
+                          }
+                          if(s[k].slice(4,5) == "H"){
+                            tipo[k] = "Humidity";
+                          }
+                          if(s[k].slice(4,5) == "Q"){
+                            tipo[k] = "Gas concentration";
+                          }
+                          num_loc[k] = s[k].slice(3,4);
+                        }
+                        
+                        var cont = 0;
+                        var x = 0;
+                        var equ_pos = 0;
+                        var kolor = "white";
+                        var unity = "";
+                        for(i=1; i<=num_s; i++){
+                            for(j=0; j<i; j++){
+                              if(s[j].slice(0,4) == s[i-1].slice(0,4)){
+                                cont = cont + 1;
+                                if ((j != i-1) && x==0){
+                                  equ_pos = j;
+                                  x = 1;
+                                }
+                              }
+                            }
+
+                            if(tipo[i-1]=="Temperature"){kolor = "red"; unity = "°C";}
+                            if(tipo[i-1]=="Humidity"){kolor = "blue"; unity = "%";}
+                            if(tipo[i-1]=="Gas concentration"){kolor = "purple"; unity = "PPM";}
+
+                            if (cont == 1){
+                              document.getElementById('ubicacion1').innerHTML += '<li><div class="collapsible-header teal center-align white-text" style="height: 50px; line-height: 50px;font-size: 25px">'+loc[i-1]+' #'+num_loc[i-1]+'</div><div id="ol'+i+'" class="collapsible-body"><div class="card" style="height: 200px;"><div class="'+kolor+'-text flow-text center" style="font-size: 100px;"><span class="'+s[i-1]+'">'+val_s[i-1]+'</span><span class="un'+s[i-1]+'" style="font-size: 80px;">'+ unity+'</span></div><div class="row center"><div class="col s12 m12 l12"><span class='+kolor+'-text flow-text center-align" style="font-size: 22px; text-align: center;">'+tipo[i-1]+'</span></div></div></div></div></li>';
+                            }
+                            if (cont > 1){
+                                document.getElementById('ol'+(equ_pos + 1)+'').innerHTML += '<div class="card" style="height: 200px;"><div class="'+kolor+'-text flow-text center" style="font-size: 100px;"><span class="'+s[i-1]+'">'+val_s[i-1]+'</span><span class="un'+s[i-1]+'" style="font-size: 80px;">'+ unity+'</span></div><div class="row center"><div class="col s12 m12 l12"><span class='+kolor+'-text flow-text center-align" style="font-size: 22px; text-align: center;">'+tipo[i-1]+'</span></div></div>';
+                            }
+                            cont = 0;
+                            x = 0;
+                            equ_pos = 0;
+                        }
+                  };fun();
+
+                </script>
+
+              </ul>
+            </div>
+            <div class="col l4"><br></br></div>
+        </div>
+          
+          <!-- SECCION DE BOTONES ACTUADORES-->
+          <div class="section act" style="height: 550px">
+            <div class="row">
+              <div class="card-panel teal white-text" style="text-align: center; font-size: 30px;">Your Devices</div>
+              <div class="row">
+                  <div class="col l4"><br></br></div>
+                  <div class="col s12 m12 l4">
+                    <ul id="ubicacion3" class="collapsible">
+
+                      <script type="text/javascript">
+
+                        var fun_act = function() {  
+
+                          //var username = obj.array[0].username;
+                          //var password = obj.array[1].password;
+                          //document.getElementById('username').innerHTML = username;
+                          //document.getElementById('password').innerHTML = password;
+
+                          //var tags = ["idMedida","Roo1T","Roo2H","Liv1T","Liv1H","LATITUD","LONGITUD","TIEMPO"];
+                          //var values = ["34","54","67","12","23","0","5","90"];
+
+                          var tags = JSON.parse(localStorage["tages"]);
+                          var values = JSON.parse(localStorage["valueses"]);
+                          //alert(tags);
+
+                          num_s = tags.length - 4; 
+                          s = [];
+                          var val_s = [];
+
+                          j = 0;
+                          for(l=1; l<=num_s; l++){
+                            s[j] = tags[l];
+                            val_s[j] = values[l];
+                            j = j + 1;
+                          }
+                          
+                          loc = [];  // Location
+                          num_loc = []; //Number of location
+                          tipo = [];  // Tipo de Sensor
+                          
+                          for(k=0; k<=num_s-1; k++){
+
+                            if(s[k].slice(0,3) == "Roo"){
+                              loc[k] = "Room";
+                            }
+                            if(s[k].slice(0,3) == "Kit"){
+                              loc[k] = "Kitchen";
+                            }
+                            if(s[k].slice(0,3) == "Liv"){
+                              loc[k] = "Living Room";
+                            }
+                            if(s[k].slice(0,3) == "Bat"){
+                              loc[k] = "Bathroom";
+                            }
+                            if(s[k].slice(0,3) == "Gar"){
+                              loc[k] = "Garage";
+                            }
+
+
+                            if(s[k].slice(4,5) == "T"){
+                              tipo[k] = "Temperature";
+                            }
+                            if(s[k].slice(4,5) == "H"){
+                              tipo[k] = "Humidity";
+                            }
+                            if(s[k].slice(4,5) == "Q"){
+                              tipo[k] = "Gas concentration";
+                            }
+                            num_loc[k] = s[k].slice(3,4);
+                          }
+                          
+                          var cont = 0;
+                          var x = 0;
+                          var equ_pos = 0;
+                          var kolor = "white";
+                          var unity = "";
+                          for(i=1; i<=num_s; i++){
+                              for(j=0; j<i; j++){
+                                if(s[j].slice(0,4) == s[i-1].slice(0,4)){
+                                  cont = cont + 1;
+                                  if ((j != i-1) && x==0){
+                                    equ_pos = j;
+                                    x = 1;
+                                  }
+                                }
+                              }
+
+                              if(tipo[i-1]=="Temperature"){kolor = "red"; unity = "°C";}
+                              if(tipo[i-1]=="Humidity"){kolor = "blue"; unity = "%";}
+                              if(tipo[i-1]=="Gas concentration"){kolor = "purple"; unity = "PPM";}
+
+                              if (cont == 1){
+                                
+                                document.getElementById('ubicacion3').innerHTML += '<li><div class="collapsible-header teal center-align white-text" style="height: 50px; line-height: 50px;font-size: 25px">'+loc[i-1]+' #'+num_loc[i-1]+'</div><div id="oli'+i+'" class="collapsible-body"><div class="card" style="height: 250px;"><span id="card'+i+'"></span></div></li>';
+                              }
+                              if (cont > 1){
+
+                              }
+                              cont = 0;
+                              x = 0;
+                              equ_pos = 0;
+                          }
+
+                          document.getElementById('card1').innerHTML += '<div class="green-text flow-text center" style="font-size: 40px;">Air Conditioner</div><div class="row center"><div class="col s12 m12 l12"><button id="PRENDE" class="waves-effect waves-light btn-large green" style="font-size: 20px;">Turn ON</button>  <button id="APAGA" class="waves-effect waves-light btn-large green" style="font-size: 20px;">Turn OFF</button></div></div><div class="row center"><div id="estados" class="flow-text green-text" style="text-align: center; font-size: 30px;"></div></div></div>';
+
+                        };fun_act();
+
+                      </script>
+
+                    </ul>
+                  </div>
+                  <div class="col l4"><br></br></div>
+              </div>
+            </div>
+          </div>
+
+      </div>
+
+      <!-- DIV HISTOICS & STATISTICS-->
+      <div id="test2" class="col s12 m6">
+        <form id="torial">
+            <div class="row">
+              <div class="col s3 m3 l3"><br></br></div>
+              <div class="input-field col s3 m3 l3">
+                <label for="input_startdate">Start Date</label>
+                <input id="input_startdate" class="datepicker" type="date" name ="valor1">
+              </div>
+            
+              <div class="input-field col s3 m3 l3">
+                <label for="input_starttime">Start Time</label>
+                <input id="input_starttime" class="timepicker" type="text" name ="valor3">
+              </div>
+              <div class="col s3 m3 l3"><br></br></div>
+            </div>
+
+            <div class="row">
+              <div class="col s3 m3 l3"><br></br></div>
+              <div class="input-field col s3 m3 l3">
+                <label for="input_enddate">End Date</label>
+                <input id="input_enddate" class="datepicker" type="date" name ="valor2">
+              </div> 
+
+              <div class="input-field col s3 m3 l3">
+                <label for="input_endtime">End Time</label>
+                <input id="input_endtime" class="timepicker" type="text" name ="valor4">
+              </div>
+              <div class="col s3 m3 l3"><br></br></div>       
+            </div>
+
+            <!-- Button GO-->
+            <div class="row center">
+              <div class="hist">
+                <button type="submit" class="waves-effect waves-light btn-large green" style="font-size: 1.3em; text-align: center;">GO!</button>
+              </div>
+            </div>
+
+        </form>
+
+          <div id="respuesta"></div>
+
+          <div class="section 2" style="height: 550px">
+            <div class="row">
+              <!--<div id="MyDiv2"></div>-->
+              <div class="card-panel teal white-text" style="text-align: center; font-size: 30px;">History</div>
+              <div id="chartContainer2"></div>
+            </div>
+          </div>
+
+          <div class="section 3">
+            <div class="card-panel teal white-text" style="text-align: center; font-size: 30px;">Statistics</div>  
+            <!-- Cards -->
+            <div class="row">
+              <div class="col l4"><br></br></div>
+              <div class="col s12 m12 l4">
+                <ul id="ubicacion2" class="collapsible">
+
+                  <script type="text/javascript">
+
+                    var fun_stat = function() {    
+
+                        //var text = '{ "array":[{"sensor": "Roo1T", "prom": "20", "min": "10", "max": "40"}, {"sensor": "Roo1H", "prom": "50", "min": "30", "max": "70"}, {"sensor": "Liv1T", "prom": "30", "min": "25", "max": "35"}, {"sensor": "Kit1Q", "prom": "210", "min": "120", "max": "250"}]}';
+                        
+                        var tags = JSON.parse(localStorage["tages"]);
+                        len = tags.length - 4;  
+
+                        var sensor = [];
+                        var prom = ["12","134","34"];
+
+                        var num_min = ["1","2","2"];
+                        var min = [["178","2015-02-01"],["146","2015-03-10 04:10:12"],["146","2015-03-12"],["4","2015-08-01"],["4","2015-06-08"]];
+                        var num_max = ["1","2","2"];
+                        var max = [["178","2015-02-01"],["146","2015-03-10 04:10:12"],["146","2015-03-12"],["4","2015-08-01"],["4","2015-06-08"]];
+
+                        //var min = ["1","14","23","12"];
+                        //var max = ["2","34","3","13"];
+
+                        //document.getElementById('username').innerHTML = username;
+                        //document.getElementById('password').innerHTML = password;
+
+                        j = 0;
+                        for(l=1; l<=num_s; l++){
+                          sensor[j] = tags[l];
+                          j = j + 1;
+                        }
+
+                        fecha_min = [];
+                        dato_min = [];
+                        fecha_max = [];
+                        dato_max = [];
+                        k = 0;
+                        l = 0;
+                        for (var i=0; i < num_min.length; i++){
+                              fecha_min[i] = [];
+                              
+                              for(var j=0; j < num_min[i]; j++){
+                                fin = min[k][1];
+                                //  dato_min=fin.concat(dato_min);
+                                fecha_min[i] = fecha_min[i].concat(fin);
+                                dato_min[i] = min[k][0];
+                                k = k + 1;
+                              }
+                        }
+                        for (var i=0; i < num_min.length; i++){
+                              fecha_max[i] = [];
+
+                              for(var j=0; j < num_max[i]; j++){
+                                fin2 = max[l][1];
+                                //  dato_min=fin.concat(dato_min);
+                                fecha_max[i] = fecha_max[i].concat(fin2);
+                                dato_max[i] = max[l][0];
+                                l = l + 1;
+                              }
+                        }
+
+                        var loc = [];  // Location
+                        var num_loc = []; //Number of location
+                        var tipo = [];  // Tipo de Sensor
+                        
+                        for(k=0; k<=len-1; k++){
+
+                          if(sensor[k].slice(0,3) == "Roo"){
+                            loc[k] = "Room";
+                          }
+                          if(sensor[k].slice(0,3) == "Kit"){
+                            loc[k] = "Kitchen";
+                          }
+                          if(sensor[k].slice(0,3) == "Liv"){
+                            loc[k] = "Living Room";
+                          }
+                          if(sensor[k].slice(0,3) == "Bat"){
+                            loc[k] = "Bathroom";
+                          }
+                          if(sensor[k].slice(0,3) == "Gar"){
+                            loc[k] = "Garage";
+                          }
+
+
+                          if(sensor[k].slice(4,5) == "T"){
+                            tipo[k] = "Temperature";
+                          }
+                          if(sensor[k].slice(4,5) == "H"){
+                            tipo[k] = "Humidity";
+                          }
+                          if(sensor[k].slice(4,5) == "Q"){
+                            tipo[k] = "Gas concentration";
+                          }
+                          num_loc[k] = sensor[k].slice(3,4);
+                        }
+
+                        var cont = 0;
+                        var x = 0;
+                        var equ_pos = 0;
+                        var kolor = "white";
+                        var unity = "";
+                        for(i=1; i<=num_s; i++){
+                            for(j=0; j<i; j++){
+                              if(sensor[j].slice(0,4) == sensor[i-1].slice(0,4)){
+                                cont = cont + 1;
+                                if ((j != i-1) && x==0){
+                                  equ_pos = j;
+                                  x = 1;
+                                }
+                              }
+                            }
+
+                            if(tipo[i-1]=="Temperature"){kolor = "red"; unity = "°C";}
+                            if(tipo[i-1]=="Humidity"){kolor = "blue"; unity = "%";}
+                            if(tipo[i-1]=="Gas concentration"){kolor = "purple"; unity = "PPM";}
+                            
+                            document.getElementById('modales').innerHTML += '<div class="row center"><div id="modal'+(i-1)+'1" class="modal modal-fixed-footer"><div id="modal_body'+(i-1)+'1" class="modal-content flow-text"><h2>Dates</h2></div><div class="modal-footer"><a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat green-text" style="font-size: 20px;">Close</a></div></div></div><div class="row center"><div id="modal'+(i-1)+'2" class="modal modal-fixed-footer"><div id="modal_body'+(i-1)+'2" class="modal-content flow-text"><h2>Dates</h2></div><div class="modal-footer"><a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat green-text" style="font-size: 20px;">Close</a></div></div></div>';
+                              
+                            if (cont == 1){
+                              document.getElementById('ubicacion2').innerHTML += '<li><div class="collapsible-header teal center-align white-text" style="height: 50px; line-height: 50px;font-size: 25px">'+loc[i-1]+' #'+num_loc[i-1]+'</div><div id="olo'+i+'" class="collapsible-body"></div></li>';
+                              document.getElementById('olo'+i+'').innerHTML += '<div class="card" style="height: 270px;"><div class="row center"><div class="col s12 m12 l12"><span class="'+kolor+'-text center-align" style="font-size: 25px; text-align: center;">'+tipo[i-1]+'</span></div></div><div class="row"><div class="col s2 m2 l2"><br></br></div><div class="col s3 m3 l3"><span class="center-align" style="font-size: 20px; line-height: 50px;">Average</span></div><div class="col s3 m3 l3"><span class="'+kolor+'-text center-align flow-text" style="font-size: 50px; line-height: 50px;"><span class="prom'+(i-1)+'">'+prom[i-1]+'</span>'+unity+'</span></div><div class="col s2 m2 l2"><br></br></div></div><div class="row"><div class="col s1 m1 l1"><br></br></div><div class="col s3 m3 l3"><span class="center-align" style="font-size: 20px; line-height: 50px;">Highest</span></div> <div class="col s4 m4 l4"><span class="'+kolor+'-text center-align flow-text" style="font-size: 50px; line-height: 50px;"><span class="max'+(i-1)+'">'+dato_max[i-1]+'</span>'+unity+'</span></div><div class="col s3 m3 l3"><a id="prim'+[i-1]+'2" class="modal-trigger waves-effect waves-light btn" style="height: 50px; width: 40px; font-size: 12px; line-height: 50px;" href="#modal'+[i-1]+'2"><div class="row center" style="position: relative; left: -20px;">Dates</div></a></div><div class="col s1 m1 l1"><br></br></div></div><div class="row"><div class="col s1 m1 l1"><br></br></div><div class="col s3 m3 l3"><span class="center-align" style="font-size: 20px; line-height: 50px;">Lowest</span></div><div class="col s4 m4 l4"><span class="'+kolor+'-text center-align flow-text" style="font-size: 50px; line-height: 50px;"><span class="min'+(i-1)+'">'+dato_min[i-1]+'</span>'+unity+'</span></div><div class="col s3 m3 l3"><a id="prim'+[i-1]+'1" class="modal-trigger waves-effect waves-light btn" style="height: 50px; width: 40px; font-size: 12px; line-height: 50px;" href="#modal'+[i-1]+'1"><div class="row center" style="position: relative; left: -20px;">Dates</div></a></div><div class="col s1 m1 l1"><br></br></div></div></div>';  
+                            }
+                            if (cont > 1){
+                              document.getElementById('olo'+(equ_pos + 1)+'').innerHTML += '<div class="card" style="height: 270px;"><div class="row center"><div class="col s12 m12 l12"><span class="'+kolor+'-text center-align" style="font-size: 25px; text-align: center;">'+tipo[i-1]+'</span></div></div><div class="row"><div class="col s2 m2 l2"><br></br></div><div class="col s3 m3 l3"><span class="center-align" style="font-size: 20px; line-height: 50px;">Average</span></div><div class="col s3 m3 l3"><span class="'+kolor+'-text center-align flow-text" style="font-size: 50px; line-height: 50px;"><span class="prom'+(i-1)+'">'+prom[i-1]+'</span>'+unity+'</span></div><div class="col s2 m2 l2"><br></br></div></div><div class="row"><div class="col s1 m1 l1"><br></br></div><div class="col s3 m3 l3"><span class="center-align" style="font-size: 20px; line-height: 50px;">Highest</span></div> <div class="col s4 m4 l4"><span class="'+kolor+'-text center-align flow-text" style="font-size: 50px; line-height: 50px;"><span class="max'+(i-1)+'">'+dato_max[i-1]+'</span>'+unity+'</span></div><div class="col s3 m3 l3"><a id="prim'+[i-1]+'2" class="modal-trigger waves-effect waves-light btn" style="height: 50px; width: 40px; font-size: 12px; line-height: 50px;" href="#modal'+[i-1]+'2"><div class="row center" style="position: relative; left: -20px;">Dates</div></a></div><div class="col s1 m1 l1"><br></br></div></div><div class="row"><div class="col s1 m1 l1"><br></br></div><div class="col s3 m3 l3"><span class="center-align" style="font-size: 20px; line-height: 50px;">Lowest</span></div><div class="col s4 m4 l4"><span class="'+kolor+'-text center-align flow-text" style="font-size: 50px; line-height: 50px;"><span class="min'+(i-1)+'">'+dato_min[i-1]+'</span>'+unity+'</span></div><div class="col s3 m3 l3"><a id="prim'+[i-1]+'1" class="modal-trigger waves-effect waves-light btn" style="height: 50px; width: 40px; font-size: 12px; line-height: 50px;" href="#modal'+[i-1]+'1"><div class="row center" style="position: relative; left: -20px;">Dates</div></a></div><div class="col s1 m1 l1"><br></br></div></div></div>';
+                            }
+
+
+
+                            for (var j=0; j < num_min[i-1]; j++){
+                              document.getElementById('modal_body'+(i-1)+'1').innerHTML += '<span class="fech1'+(i-1)+''+j+'" style="font-size: 40px">'+new Date(fecha_min[i-1][j])+'</span><br />';
+                            }
+
+                            for (var j=0; j < num_max[i-1]; j++){
+                              document.getElementById('modal_body'+(i-1)+'2').innerHTML += '<span class="fech2'+(i-1)+''+j+'" style="font-size: 40px">'+new Date(fecha_max[i-1][j])+'</span><br />';
+                            }
+
+                            cont = 0;
+                            x = 0;
+                            equ_pos = 0; 
+                        }
+                    };fun_stat();
+
+                  </script>
+
+                </ul>
+              </div>
+              <div class="col l4"><br></br></div>
+            </div>
+          </div>
+      </div>
+
+      <!-- DIV PROFILE-->
+      <div id="test3" class="col s12 m12 l12">
+             <table  style="width:60%" >
+            <tbody>
+            <tr>
+
+            <td>  </td>
+            <td > </td>
+            <td > </td>
+            <td > </td>
+            <td > </td>
+            <td > </td>
+            <td id="hola" class="center-align" > </td>
+
+            <td  style="width:50%">  <h5  id="nombretit"  class="left-align" style="font-size:250%; font-weight:bold"></td>
+
+            </tr>
+            </tr>
+            </tbody>
+            </table>
+
+            <table class="highlight" class="centered" style="width:40%" align="center">
+
+            <tbody>
+
+
+            <TR>
+            <TD> <i class="material-icons" style=" font-size:4rem">person</i> </TD>
+            <TD> </TD>
+            <TD id="user"></TD>            
+            </TR>
+            <TR>
+            <TD style="font-weight:bold">Name</TD>
+            <TD></TD>
+            <TD id="nombre"> </TD>
+            <TD></TD>
+            </TR>
+            <TR>
+            <TD style="font-weight:bold">Last Name</TD>
+            <TD></TD>
+            <TD id="last"></TD>
+            <TD></TD>
+            </TR>
+            <TR>
+            <TD> <i class="material-icons prefix" style=" font-size:3rem">email</i></TD>
+            <TD></TD>
+            <TD id="email"></TD>
+            </TR>
+            <TR>
+            <TD><i class="material-icons" style=" font-size:3rem">place</i></TD>
+            <TD></TD>
+            <TD id="departamento"></TD>
+            </TR>
+            <TD style="font-weight:bold">Numero de sensores</TD>
+            <TD></TD>
+            <TD id="toll"></TD>
+
+
+
+            </tbody>
+            </table>
+
+            </form>      
+
+      </div>
+
+      <!-- Footer -->
+      <footer class="page-footer green accent-4">
+          <div class="container" style="height: 100px;">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">Wisens</h5>
+                <p class="grey-text text-lighten-4"></p>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h5 class="white-text"></h5>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="#!"></a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!"></a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!"></a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!"></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+            © 2015 Copyright Text
+            <a class="grey-text text-lighten-4 right" href="#!"></a>
+            </div>
+          </div>
+      </footer>
+
+      <!--Import jQuery before materialize.js-->
+      
+      <script type="text/javascript" src="js/materialize.min.js"></script>
+      <!--Import Javascript Files-->
+      <!--<script src="js/grafica.js"></script>-->
+      <!--<script src="js/grafica2.js"></script>-->
+      <script src="js/letters.js"></script>
+      <script src="js/actuadores.js"></script>
+      <script type="text/javascript" src="canvasjs.min.js"></script>
+      <!--<script type="text/javascript" src="/assets/script/canvasjs.min.js"></script>-->
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
+      <!--Import Javascript Files Timepicker-->
+      <script src="js/materialize.clockpicker.js"></script>
+    </body>
+</html>
+
+        
